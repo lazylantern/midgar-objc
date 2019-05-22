@@ -1,0 +1,16 @@
+PODS:
+  - Midgar (0.1.0)
+
+DEPENDENCIES:
+  - Midgar (from `../`)
+
+EXTERNAL SOURCES:
+  Midgar:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Midgar: 2f7bc8ff4bfbe391ce36f6239a19eb178e4e2839
+
+PODFILE CHECKSUM: e9f098653af3f300abd92b0b35310165c2070cc4
+
+COCOAPODS: 1.5.3

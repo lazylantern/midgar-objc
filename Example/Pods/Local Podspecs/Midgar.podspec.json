@@ -1,0 +1,22 @@
+{
+  "name": "Midgar",
+  "version": "0.1.0",
+  "summary": "A short description of Midgar.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/bastienbeurier/Midgar",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "bastienbeurier": "bastienbeurier@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/bastienbeurier/Midgar.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Midgar/Classes/**/*"
+}

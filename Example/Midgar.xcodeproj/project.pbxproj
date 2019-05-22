@@ -16,10 +16,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3D69F9414A5FE7EFC05200CB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		3DB89266F7FA9AEF5031BFBF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		3D69F9414A5FE7EFC05200CB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		3DB89266F7FA9AEF5031BFBF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		3EF1679BD0827F756A8634C9 /* Pods-Midgar_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midgar_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midgar_Tests/Pods-Midgar_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		5B2040F0DEB17F5F2CBD3C73 /* Midgar.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = Midgar.podspec; path = ../Midgar.podspec; sourceTree = "<group>"; };
+		5B2040F0DEB17F5F2CBD3C73 /* Midgar.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Midgar.podspec; path = ../Midgar.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };

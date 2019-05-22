@@ -1,0 +1,6 @@
+framework module Midgar {
+  umbrella header "Midgar-umbrella.h"
+
+  export *
+  module * { export * }
+}
