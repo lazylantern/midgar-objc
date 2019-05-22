@@ -1,0 +1,6 @@
+use_frameworks!
+target 'Midgar_Tests' do
+  pod 'Midgar', :path => '../'
+  
+  
+end
