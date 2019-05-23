@@ -16,7 +16,7 @@ Midgar is available through CocoaPods.
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Midgar-ObjC'
+pod 'Midgar-ObjC', :git => 'https://github.com/lazylantern/midgar-objc.git'
 ```
 
 Run `pod install`.
