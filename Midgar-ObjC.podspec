@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
-  s.name             = 'Midgar'
-  s.version          = '0.1.0'
+  s.name             = 'Midgar-ObjC'
+  s.version          = '0.1.2'
   s.summary          = 'Midgar Objective-C SDK for Lazy Lantern.'
 
   s.description      = <<-DESC
@@ -14,5 +14,5 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'Midgar/Classes/**/*'
+  s.source_files = 'Midgar-ObjC/Classes/**/*'
 end

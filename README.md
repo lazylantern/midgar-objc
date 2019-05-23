@@ -16,7 +16,7 @@ Midgar is available through CocoaPods.
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Midgar'
+pod 'Midgar-ObjC'
 ```
 
 Run `pod install`.
@@ -26,7 +26,7 @@ The integration entirely happens in the `AppDelegate.m` implementation file.
 Import the header file:
 
 ```
-#import <Midgar/Midgar.h>
+#import "Midgar.h"
 ```
 
 Declare the `midgarWindow` property:

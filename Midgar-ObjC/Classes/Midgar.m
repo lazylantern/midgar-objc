@@ -9,8 +9,7 @@
 
 #pragma mark - Constants
 
-#define LOGS_ENABLED YES
-
+BOOL const LogsEnabled = YES;
 float const DetectionFrequency = 0.5; // in seconds
 float const UploadFrequency = 10.0; // in seconds
 NSString *const BaseUrl = @"https://midgar-flask.herokuapp.com/api";
@@ -21,7 +20,7 @@ NSString *const EventTypeBackground = @"background";
 #pragma mark - Logger
 
 void MidgarLog(NSString *format, ...) {
-    if(!LOGS_ENABLED)
+    if(!LogsEnabled)
         return;
     va_list args;
     va_start(args, format);

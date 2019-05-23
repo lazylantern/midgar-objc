@@ -35,8 +35,8 @@
 		4C00C09102F61C8548B4E72F51DF5137 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50389DF6A3D1DB7E7D7B3B3B2200251C /* Pods-Midgar_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Midgar_Tests-dummy.m"; sourceTree = "<group>"; };
 		6B57816D91FD7BA39AE94EAA241EF977 /* Pods-Midgar_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Midgar_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		701E9796A09C8CBF3F05F088793695E0 /* Midgar.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = Midgar.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		723FD9D4DD295386B9444BB2C6B0B27F /* Midgar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Midgar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		701E9796A09C8CBF3F05F088793695E0 /* Midgar-ObjC.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = "Midgar-ObjC.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		723FD9D4DD295386B9444BB2C6B0B27F /* Midgar-ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Midgar-ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7E2AA1BDBE0615498228C9C4A9932F /* Pods-Midgar_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Midgar_Tests.modulemap"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9D209CF17FD3A8AF12DB2E3DBBB30029 /* Pods-Midgar_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Midgar_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 		290F127063A070B929B88DBF6F19E70F /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				79113D1061FEC510DCD2AA08C76A8226 /* Midgar */,
+				79113D1061FEC510DCD2AA08C76A8226 /* Midgar-ObjC */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -82,7 +82,7 @@
 		2CE9758F9A3A61C5549D2D0D2C5B25B5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				723FD9D4DD295386B9444BB2C6B0B27F /* Midgar.framework */,
+				723FD9D4DD295386B9444BB2C6B0B27F /* Midgar-ObjC.framework */,
 				F4AB24023690F6B70A70846B32443FFB /* Pods_Midgar_Tests.framework */,
 			);
 			name = Products;
@@ -114,13 +114,13 @@
 			path = "Target Support Files/Pods-Midgar_Tests";
 			sourceTree = "<group>";
 		};
-		79113D1061FEC510DCD2AA08C76A8226 /* Midgar */ = {
+		79113D1061FEC510DCD2AA08C76A8226 /* Midgar-ObjC */ = {
 			isa = PBXGroup;
 			children = (
 				B92883537FE63FDA83E03BF5B55161B8 /* Pod */,
 				86C3B3506D41E4ED4111BF011AD77ED6 /* Support Files */,
 			);
-			name = Midgar;
+			name = "Midgar-ObjC";
 			path = ../..;
 			sourceTree = "<group>";
 		};
@@ -161,7 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				4884E3C73EEE72BCE0721D874B958031 /* LICENSE */,
-				701E9796A09C8CBF3F05F088793695E0 /* Midgar.podspec */,
+				701E9796A09C8CBF3F05F088793695E0 /* Midgar-ObjC.podspec */,
 				C8C93108C0285843666C1E183FB576A5 /* README.md */,
 			);
 			name = Pod;
@@ -212,7 +212,7 @@
 			);
 			name = Midgar;
 			productName = Midgar;
-			productReference = 723FD9D4DD295386B9444BB2C6B0B27F /* Midgar.framework */;
+			productReference = 723FD9D4DD295386B9444BB2C6B0B27F /* Midgar-ObjC.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EB909F259E42199122494B5C39A612D0 /* Pods-Midgar_Tests */ = {
@@ -326,8 +326,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Midgar/Midgar.modulemap";
-				PRODUCT_MODULE_NAME = Midgar;
-				PRODUCT_NAME = Midgar;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.Midgar-ObjC";
+				PRODUCT_MODULE_NAME = "Midgar-ObjC";
+				PRODUCT_NAME = "Midgar-ObjC";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -357,8 +358,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Midgar/Midgar.modulemap";
-				PRODUCT_MODULE_NAME = Midgar;
-				PRODUCT_NAME = Midgar;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.Midgar-ObjC";
+				PRODUCT_MODULE_NAME = "Midgar-ObjC";
+				PRODUCT_NAME = "Midgar-ObjC";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";

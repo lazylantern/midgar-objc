@@ -1,6 +1,4 @@
 use_frameworks!
 target 'Midgar_Tests' do
-  pod 'Midgar', :path => '../'
-  
-  
+  pod 'Midgar-ObjC', :path => '../'
 end
