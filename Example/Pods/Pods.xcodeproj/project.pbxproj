@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BFA49B52296E18200B2A475 /* Midgar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFA49B32296E18200B2A475 /* Midgar.m */; };
+		0BFA49B62296E18200B2A475 /* Midgar.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BFA49B42296E18200B2A475 /* Midgar.h */; };
 		2B01DC065EAC88AE4AD5486F26F75EB1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */; };
 		493E0DB93D77F4442499BEC0CE81A1B2 /* Midgar-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FEBC87969B4AADF6C644977026B1BED8 /* Midgar-dummy.m */; };
 		9BDE2DE8B8699F08A2FB443CDED85903 /* Midgar-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 079F323EBB4F29F9771822F470C1975B /* Midgar-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,6 +30,8 @@
 /* Begin PBXFileReference section */
 		079F323EBB4F29F9771822F470C1975B /* Midgar-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Midgar-umbrella.h"; sourceTree = "<group>"; };
 		07A467E2E656A2A199E4B064A49DF9CF /* Midgar.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Midgar.xcconfig; sourceTree = "<group>"; };
+		0BFA49B32296E18200B2A475 /* Midgar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midgar.m; sourceTree = "<group>"; };
+		0BFA49B42296E18200B2A475 /* Midgar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midgar.h; sourceTree = "<group>"; };
 		17106568B06564C7B3B93B0F53B78952 /* Pods-Midgar_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Midgar_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		1F3D75228F46519D7C7083826CC298FC /* Midgar.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Midgar.modulemap; sourceTree = "<group>"; };
 		256FBA2C88EE7C8F39EC9EDC164F9FDB /* Pods-Midgar_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Midgar_Tests-resources.sh"; sourceTree = "<group>"; };
@@ -71,6 +75,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BFA49B22296E13A00B2A475 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0BFA49B42296E18200B2A475 /* Midgar.h */,
+				0BFA49B32296E18200B2A475 /* Midgar.m */,
+			);
+			name = Classes;
+			path = "Midgar-ObjC/Classes";
+			sourceTree = "<group>";
+		};
 		290F127063A070B929B88DBF6F19E70F /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +174,7 @@
 		B92883537FE63FDA83E03BF5B55161B8 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
+				0BFA49B22296E13A00B2A475 /* Classes */,
 				4884E3C73EEE72BCE0721D874B958031 /* LICENSE */,
 				701E9796A09C8CBF3F05F088793695E0 /* Midgar-ObjC.podspec */,
 				C8C93108C0285843666C1E183FB576A5 /* README.md */,
@@ -190,6 +205,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BFA49B62296E18200B2A475 /* Midgar.h in Headers */,
 				9BDE2DE8B8699F08A2FB443CDED85903 /* Midgar-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				493E0DB93D77F4442499BEC0CE81A1B2 /* Midgar-dummy.m in Sources */,
+				0BFA49B52296E18200B2A475 /* Midgar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

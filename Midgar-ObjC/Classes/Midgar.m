@@ -9,7 +9,7 @@
 
 #pragma mark - Constants
 
-BOOL const LogsEnabled = YES;
+BOOL const LogsEnabled = NO;
 float const DetectionFrequency = 0.5; // in seconds
 float const UploadFrequency = 10.0; // in seconds
 NSString *const BaseUrl = @"https://midgar-flask.herokuapp.com/api";
