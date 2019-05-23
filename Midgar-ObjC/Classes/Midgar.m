@@ -168,35 +168,14 @@ void MidgarLog(NSString *format, ...) {
 
 @implementation MidgarWindow
 
-#pragma mark - MidgarWindow Initialization Methods
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame])  {
-        [self setUpInitialValues];
-    }
-    return self;
-}
-
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder])  {
-        [self setUpInitialValues];
-    }
-    return self;
-}
-
-- (void)setUpInitialValues {
-    self.eventBatch = [[NSMutableArray alloc] init];
-    self.eventUploadService = [[MidgarUploadService alloc] init];
-    self.deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-}
-
 #pragma mark - MidgarWindow Public Methods
 
 - (void)startWithAppToken:(NSString *)appToken {
     if (self.started) { return; }
     
-    self.appToken = appToken;
     self.started = YES;
+    [self setUpInitialValues];
+    self.appToken = appToken;
     [self subscribeToNotifications];
     [self checkAppEnabled];
 }
@@ -206,6 +185,12 @@ void MidgarLog(NSString *format, ...) {
 }
 
 #pragma mark - MidgarWindow Private Methods
+    
+- (void)setUpInitialValues {
+    self.eventBatch = [[NSMutableArray alloc] init];
+    self.eventUploadService = [[MidgarUploadService alloc] init];
+    self.deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+}
 
 - (void)checkAppEnabled {
     __weak typeof(self) weakSelf = self;
@@ -253,11 +238,13 @@ void MidgarLog(NSString *format, ...) {
     [self.eventUploadTimer invalidate];
     self.screenDetectionTimer = nil;
     self.eventUploadTimer = nil;
-    self.started = NO;
     [self unsubscribeFromNotifications];
+    self.started = NO;
 }
 
 - (void)subscribeToNotifications {
+    [self unsubscribeFromNotifications];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appForegrounded:)
                                                  name:UIApplicationDidBecomeActiveNotification
