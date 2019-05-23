@@ -9,7 +9,7 @@
 
 #pragma mark - Constants
 
-#define LOGS_ENABLED NO
+#define LOGS_ENABLED YES
 
 float const DetectionFrequency = 0.5; // in seconds
 float const UploadFrequency = 10.0; // in seconds
