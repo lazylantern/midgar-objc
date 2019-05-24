@@ -10,10 +10,20 @@ Swift SDK is available at https://github.com/lazylantern/midgar-swift.git.
 
 Midgar is available through CocoaPods. 
 
-To install it, simply add the following line to your Podfile:
+To install it, add the source and pod to your Podfile as follow:
 
 ```ruby
-pod 'MidgarObjC', :git => 'https://github.com/lazylantern/midgar-objc.git'
+platform :ios, 'x.0'
+
+# Your other sources...
+source 'https://github.com/lazylantern/MidgarObjCPodSpecs.git' # Add this line (1 out of 2).
+
+target 'your-app-name' do
+
+# Your other pods...
+pod 'MidgarObjC' # Add this line (2 out of 2).
+
+end
 ```
 
 Run `pod install`.
