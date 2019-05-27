@@ -11,7 +11,7 @@
 
 BOOL const LogsEnabled = NO;
 float const DetectionFrequency = 0.5; // in seconds
-float const UploadFrequency = 10.0; // in seconds
+float const UploadFrequency = 60.0; // in seconds
 NSString *const BaseUrl = @"https://midgar-flask.herokuapp.com/api";
 NSString *const EventTypeImpression = @"impression";
 NSString *const EventTypeForeground = @"foreground";
@@ -199,8 +199,10 @@ void MidgarLog(NSString *format, ...) {
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       if ([response isKindOfClass:[NSHTTPURLResponse class]] &&
                                                           [((NSHTTPURLResponse *)response) statusCode] == 200) {
+                                                          MidgarLog(@"Kill switch OFF");
                                                           [weakSelf startMonitoring];
                                                       } else {
+                                                          MidgarLog(@"Kill switch ON");
                                                           [weakSelf stopMonitoring];
                                                       }
                                                   });
@@ -226,11 +228,18 @@ void MidgarLog(NSString *format, ...) {
     }];
     
     self.eventUploadTimer = [NSTimer scheduledTimerWithTimeInterval:UploadFrequency repeats:YES block:^(NSTimer *timer) {
-        if (self.eventBatch.count > 0) {
-            [self.eventUploadService uploadBatchWithEvents:self.eventBatch appToken:self.appToken];
-            [self.eventBatch removeAllObjects];
-        }
+        [self uploadEventsIfNeeded];
     }];
+}
+
+- (void)uploadEventsIfNeeded {
+    if (self.eventBatch.count > 0) {
+        MidgarLog(@"Uploading %d events.", self.eventBatch.count);
+        [self.eventUploadService uploadBatchWithEvents:self.eventBatch appToken:self.appToken];
+        [self.eventBatch removeAllObjects];
+    } else {
+        MidgarLog(@"No event to upload.", self.eventBatch.count);
+    }
 }
 
 - (void)stopMonitoring {
@@ -272,6 +281,7 @@ void MidgarLog(NSString *format, ...) {
                                                     screen:@""
                                                   deviceId:self.deviceId];
     [self.eventBatch addObject:event];
+    [self uploadEventsIfNeeded];
 }
 
 - (UIViewController *)topViewControllerFromViewController:(UIViewController *)vc {
