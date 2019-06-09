@@ -131,7 +131,7 @@ static bool _isEmulator;
 }
 
 + (NSString *)sdk {
-    return @"swift";
+    return @"objc";
 }
 
 + (NSString *)country {
