@@ -396,7 +396,7 @@ static bool _isEmulator;
     
     self.screenDetectionTimer = [NSTimer scheduledTimerWithTimeInterval:DetectionFrequency
                                                                  target:self
-                                                               selector:@selector(appForegrounded:)
+                                                               selector:@selector(detectScreen:)
                                                                userInfo:nil
                                                                 repeats:YES];
     
