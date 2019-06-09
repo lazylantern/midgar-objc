@@ -6,6 +6,8 @@
 //
 
 #import "Midgar.h"
+#import <sys/utsname.h>
+#include "TargetConditionals.h"
 
 #pragma mark - Constants
 
@@ -16,6 +18,8 @@ NSString *const BaseUrl = @"https://midgar-flask.herokuapp.com/api";
 NSString *const EventTypeImpression = @"impression";
 NSString *const EventTypeForeground = @"foreground";
 NSString *const EventTypeBackground = @"background";
+int const SessionIdLength = 6;
+long long const SessionExpiration = 10 * 60 * 1000; // 10 mins in milliseconds
 
 #pragma mark - Logger
 
@@ -28,6 +32,24 @@ void MidgarLog(NSString *format, ...) {
     va_end(args);
 }
 
+#pragma mark - Session Class Interface
+
+@interface MidgarSession : NSObject
+
++ (NSString *)sessionId;
++ (NSString *)platform;
++ (NSString *)sdk;
++ (NSString *)country;
++ (NSString *)osVersion;
++ (NSString *)appName;
++ (NSString *)versionName;
++ (NSString *)versionCode;
++ (NSString *)deviceManufacturer;
++ (NSString *)deviceModel;
++ (bool)isEmulator;
+
+@end
+
 #pragma mark - Event Class Interface
 
 @interface MidgarEvent : NSObject
@@ -36,12 +58,148 @@ void MidgarLog(NSString *format, ...) {
 @property (strong, nonatomic) NSString *screen;
 @property (strong, nonatomic) NSString *deviceId;
 @property (nonatomic) long long timestamp;
+@property (strong, nonatomic) NSString *sessionId;
+@property (strong, nonatomic) NSString *platform;
+@property (strong, nonatomic) NSString *sdk;
+@property (strong, nonatomic) NSString *country;
+@property (strong, nonatomic) NSString *osVersion;
+@property (strong, nonatomic) NSString *appName;
+@property (strong, nonatomic) NSString *versionName;
+@property (strong, nonatomic) NSString *versionCode;
+@property (strong, nonatomic) NSString *deviceManufacturer;
+@property (strong, nonatomic) NSString *deviceModel;
+@property (nonatomic) bool isEmulator;
 
 - (id)initWithType:(NSString *)type
             screen:(NSString *)screen
           deviceId:(NSString *)deviceId;
 
 + (NSArray *)toDicts:(NSArray <MidgarEvent *> *)events;
+
+@end
+
+#pragma mark - Session Class Implementation
+
+@implementation MidgarSession
+
+static MidgarEvent *_lastEvent;
+static NSString *_sessionId;
+static NSString *_country;
+static NSString *_osVersion;
+static NSString *_appName;
+static NSString *_versionName;
+static NSString *_versionCode;
+static NSString *_deviceManufacturer;
+static NSString *_deviceModel;
+static bool _isEmulator;
+
++ (void)setLastEvent:(MidgarEvent *)event {
+    _lastEvent = event;
+}
+
++ (NSString *)generateSessionId {
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:SessionIdLength];
+    
+    for (int i = 0; i < SessionIdLength; i++) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((int)[letters length])]];
+    }
+    
+    return randomString;
+}
+
++ (NSString *)sessionId {
+    if (!_sessionId || !_lastEvent) { // First event in session.
+        _sessionId = [MidgarSession generateSessionId];
+        return _sessionId;
+    }
+    
+    if (![_lastEvent.type isEqualToString:EventTypeBackground]) { // App was in foreground.
+        return _sessionId;
+    }
+    
+    long long backgroundDuration = ((long long)([[NSDate date] timeIntervalSince1970] * 1000.0)) - _lastEvent.timestamp;
+    if (backgroundDuration > SessionExpiration) { // App was in background.
+        _sessionId = [MidgarSession generateSessionId]; // Session expired.
+    }
+    
+    return _sessionId;
+}
+
++ (NSString *)platform {
+    return @"ios";
+}
+
++ (NSString *)sdk {
+    return @"swift";
+}
+
++ (NSString *)country {
+    if (!_country) {
+        _country = [NSLocale.currentLocale objectForKey:NSLocaleCountryCode];
+    }
+    
+    return _country;
+}
+
++ (NSString *)osVersion {
+    if (!_osVersion) {
+        _osVersion = UIDevice.currentDevice.systemVersion;
+    }
+    
+    return _osVersion;
+}
+
++ (NSString *)appName {
+    if (!_appName) {
+        _appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(id)kCFBundleNameKey];
+    }
+    
+    return _appName;
+}
+
++ (NSString *)versionName {
+    if (!_versionName) {
+        _versionName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    }
+    
+    return _versionName;
+}
+
++ (NSString *)versionCode {
+    if (!_versionCode) {
+        _versionCode = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    }
+    
+    return _versionCode;
+}
+
++ (NSString *)deviceManufacturer {
+    return @"Apple";
+}
+
++ (NSString *)deviceModel {
+    if (!_deviceModel) {
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        _deviceModel = [NSString stringWithCString:systemInfo.machine
+                                            encoding:NSUTF8StringEncoding];
+    }
+    
+    return _deviceModel;
+}
+
++ (bool)isEmulator {
+    if (!_isEmulator) {
+        #if TARGET_OS_SIMULATOR
+        _isEmulator = YES;
+        #else
+        _isEmulator = NO;
+        #endif
+    }
+    
+    return _isEmulator;
+}
 
 @end
 
@@ -57,7 +215,19 @@ void MidgarLog(NSString *format, ...) {
         self.screen = screen;
         self.deviceId = deviceId;
         self.timestamp = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
-        [self log];
+        self.sessionId = MidgarSession.sessionId;
+        self.platform = MidgarSession.platform;
+        self.sdk = MidgarSession.sdk;
+        self.country = MidgarSession.country;
+        self.osVersion = MidgarSession.osVersion;
+        self.appName = MidgarSession.appName;
+        self.versionName = MidgarSession.versionName;
+        self.versionCode = MidgarSession.versionCode;
+        self.deviceManufacturer = MidgarSession.deviceManufacturer;
+        self.deviceModel = MidgarSession.deviceModel;
+        self.isEmulator = MidgarSession.isEmulator;
+        [MidgarSession setLastEvent:self];
+        MidgarLog(@"new event -> %@", [self toDict]);
     }
     return self;
 }
@@ -68,13 +238,18 @@ void MidgarLog(NSString *format, ...) {
              @"screen": self.screen,
              @"device_id": self.deviceId,
              @"timestamp": [NSNumber numberWithLongLong:self.timestamp],
-             @"platform": @"ios",
-             @"sdk": @"objc"
+             @"session_id": self.sessionId,
+             @"platform": self.platform,
+             @"sdk": self.sdk,
+             @"country": self.country,
+             @"os_version": self.osVersion,
+             @"app_name": self.appName,
+             @"version_name": self.versionName,
+             @"version_code": self.versionCode,
+             @"manufacturer": self.deviceManufacturer,
+             @"model": self.deviceModel,
+             @"is_emulator": [NSNumber numberWithBool:self.isEmulator]
              };
-}
-
-- (void)log {
-    MidgarLog(@"Event %@, screen %@, id %@, timestamp %lld", self.type, self.screen, self.deviceId, self.timestamp);
 }
 
 + (NSArray *)toDicts:(NSArray <MidgarEvent *> *)events {
@@ -96,7 +271,9 @@ void MidgarLog(NSString *format, ...) {
 - (void)checkKillSwitchWithAppToken:(NSString *)appToken
                          completion:(void (^)(NSData *, NSURLResponse *, NSError *))completion;
 
-- (void)uploadBatchWithEvents:(NSArray <MidgarEvent *> *)events appToken:(NSString *)appToken;
+- (void)uploadBatchWithEvents:(NSArray <MidgarEvent *> *)events
+                     appToken:(NSString *)appToken
+                   completion:(void (^)(NSData *, NSURLResponse *, NSError *))completion;
 
 @end
 
@@ -115,7 +292,9 @@ void MidgarLog(NSString *format, ...) {
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:completion] resume];
 }
 
-- (void)uploadBatchWithEvents:(NSArray <MidgarEvent *> *)events appToken:(NSString *)appToken {
+- (void)uploadBatchWithEvents:(NSArray <MidgarEvent *> *)events
+                     appToken:(NSString *)appToken
+                   completion:(void (^)(NSData *, NSURLResponse *, NSError *))completion {
     NSDictionary *parameters = @{
                                  @"events": [MidgarEvent toDicts:events],
                                  @"app_token": appToken
@@ -124,7 +303,7 @@ void MidgarLog(NSString *format, ...) {
     NSURLRequest *request = [self createPostRequestWithUrl:url parameters:parameters];
     
     if (!request) { return; }
-    [[[NSURLSession sharedSession] dataTaskWithRequest:request] resume];
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:completion] resume];
 }
 
 - (NSURLRequest *)createPostRequestWithUrl:(NSString *)urlString parameters:(NSDictionary *)parameters {
@@ -235,10 +414,21 @@ void MidgarLog(NSString *format, ...) {
 - (void)uploadEventsIfNeeded {
     if (self.eventBatch.count > 0) {
         MidgarLog(@"Uploading %d events.", self.eventBatch.count);
-        [self.eventUploadService uploadBatchWithEvents:self.eventBatch appToken:self.appToken];
+        [self.eventUploadService uploadBatchWithEvents:self.eventBatch
+                                              appToken:self.appToken
+                                            completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    if ([response isKindOfClass:[NSHTTPURLResponse class]] &&
+                                                        [((NSHTTPURLResponse *)response) statusCode] == 201) {
+                                                        MidgarLog(@"Upload successful.");
+                                                    } else {
+                                                        MidgarLog(@"Upload failed.");
+                                                    }
+                                                });
+                                            }];
         [self.eventBatch removeAllObjects];
     } else {
-        MidgarLog(@"No event to upload.", self.eventBatch.count);
+        MidgarLog(@"No event to upload.");
     }
 }
 
