@@ -394,24 +394,32 @@ static bool _isEmulator;
         return;
     }
     
-    self.screenDetectionTimer = [NSTimer scheduledTimerWithTimeInterval:DetectionFrequency repeats:YES block:^(NSTimer *timer) {
-        NSString *currentScreen = [self topViewControllerDescription];
-        
-        if (![currentScreen isEqualToString:self.currentScreen]) {
-            self.currentScreen = currentScreen;
-            MidgarEvent *event = [[MidgarEvent alloc] initWithType:EventTypeImpression
-                                                            screen:currentScreen
-                                                          deviceId:self.deviceId];
-            [self.eventBatch addObject:event];
-        }
-    }];
+    self.screenDetectionTimer = [NSTimer scheduledTimerWithTimeInterval:DetectionFrequency
+                                                                 target:self
+                                                               selector:@selector(appForegrounded:)
+                                                               userInfo:nil
+                                                                repeats:YES];
     
-    self.eventUploadTimer = [NSTimer scheduledTimerWithTimeInterval:UploadFrequency repeats:YES block:^(NSTimer *timer) {
-        [self uploadEventsIfNeeded];
-    }];
+    self.eventUploadTimer = [NSTimer scheduledTimerWithTimeInterval:UploadFrequency
+                                                                 target:self
+                                                               selector:@selector(uploadEventsIfNeeded:)
+                                                               userInfo:nil
+                                                                repeats:YES];
 }
 
-- (void)uploadEventsIfNeeded {
+- (void)detectScreen:(id)userInfo {
+    NSString *currentScreen = [self topViewControllerDescription];
+    
+    if (![currentScreen isEqualToString:self.currentScreen]) {
+        self.currentScreen = currentScreen;
+        MidgarEvent *event = [[MidgarEvent alloc] initWithType:EventTypeImpression
+                                                        screen:currentScreen
+                                                      deviceId:self.deviceId];
+        [self.eventBatch addObject:event];
+    }
+}
+
+- (void)uploadEventsIfNeeded:(id)userInfo {
     if (self.eventBatch.count > 0) {
         MidgarLog(@"Uploading %d events.", self.eventBatch.count);
         [self.eventUploadService uploadBatchWithEvents:self.eventBatch
@@ -471,7 +479,7 @@ static bool _isEmulator;
                                                     screen:@""
                                                   deviceId:self.deviceId];
     [self.eventBatch addObject:event];
-    [self uploadEventsIfNeeded];
+    [self uploadEventsIfNeeded:nil];
 }
 
 - (UIViewController *)topViewControllerFromViewController:(UIViewController *)vc {
