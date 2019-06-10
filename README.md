@@ -2,7 +2,7 @@
 
 ## Requirements
 
-iOS > 10.0
+iOS >= 8
 
 Swift SDK is available at https://github.com/lazylantern/midgar-swift.git.
 
